@@ -1,0 +1,17 @@
+name: ci
+on: [push]
+jobs:
+  unit-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: 'true'
+      - run: |
+          cd lib/third_party/jsoncpp
+          python amalgamate.py
+      - run: |
+          cmake .
+          make unit_tests_run
+          cd lib/
+          ./unit_tests/unit_tests_run
